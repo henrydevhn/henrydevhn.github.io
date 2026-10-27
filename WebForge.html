@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instituto Mariano García Arzú</title>
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #1e3a8a;
+            --primary-hover: #1d4ed8;
+            --secondary: #3b82f6;
+            --accent: #f59e0b;
+            --dark: #1f2937;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --card-bg: #ffffff;
+            --card-border: #e2e8f0;
+            --table-hover: #f1f5f9;
+            --table-even: #f8fafc;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --dropdown-bg: #ffffff;
+            --dropdown-hover: #f1f5f9;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --secondary: #60a5fa;
+            --accent: #fbbf24;
+            --dark: #f8fafc;
+            --light: #0f172a;
+            --white: #1e293b;
+            --card-bg: #1e293b;
+            --card-border: #334155;
+            --table-hover: #334155;
+            --table-even: #0f172a;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --dropdown-bg: #1e293b;
+            --dropdown-hover: #334155;
+            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--text-main);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #1e3a8a;
+            color: #ffffff;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 2px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+        }
+
+        nav ul li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: var(--transition);
+        }
+
+        nav ul li a:hover, nav ul li a.active {
+            background: rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+        }
+
+        .theme-selector-container {
+            position: relative;
+        }
+
+        .theme-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .theme-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .theme-dropdown {
+            position: absolute;
+            right: 0;
+            top: 120%;
+            background: var(--dropdown-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            width: 160px;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1100;
+            border: 1px solid var(--card-border);
+        }
+
+        .theme-dropdown.show {
+            display: flex;
+        }
+
+        .theme-option {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            padding: 0.75rem 1rem;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            width: 100%;
+        }
+
+        .theme-option:hover {
+            background: var(--dropdown-hover);
+        }
+
+        .theme-option.active {
+            color: var(--secondary);
+            font-weight: 600;
+        }
+
+        .main-content {
+            margin-top: 90px;
+            flex: 1;
+            padding: 3rem 2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+
+        /* --- ANIMACIÓN MEJORADA PARA LAS SECCIONES --- */
+        .section {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+        }
+
+        .section.active {
+            display: block;
+            animation: smoothSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes smoothSlideIn {
+            0% {
+                opacity: 0;
+                transform: translateY(20px) scale(0.98);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        h2.section-title {
+            font-size: 2.2rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        h2.section-title::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        h3.subsection-title {
+            font-size: 1.6rem;
+            color: var(--text-main);
+            margin: 2.5rem 0 1.2rem 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3.subsection-title i {
+            color: var(--accent);
+        }
+
+        /* --- SECCIÓN INICIO --- */
+        .hero {
+            background: linear-gradient(rgba(30, 58, 138, 0.92), rgba(30, 58, 138, 0.96)), 
+                        url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: #ffffff;
+            padding: 3.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .institute-logo-large {
+            width: 130px;
+            height: 130px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+            border: 4px solid var(--accent);
+            padding: 6px;
+        }
+
+        .institute-logo-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 50%;
+        }
+
+        .hero h1 {
+            font-size: 2.6rem;
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .hero-collage-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 1rem 0;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            border: 4px solid rgba(251, 191, 36, 0.6);
+        }
+
+        .hero-collage-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: cover;
+        }
+
+        .hero-description {
+            max-width: 850px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 14px;
+            backdrop-filter: blur(5px);
+            margin-top: 0.5rem;
+        }
+
+        .hero-description h3 {
+            color: #fbbf24;
+            margin-bottom: 0.8rem;
+            font-size: 1.3rem;
+            text-align: center;
+        }
+
+        .hero-description p {
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            color: #f8fafc;
+            text-align: justify;
+        }
+
+        .grados-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .grado-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .grado-card:hover {
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary);
+        }
+
+        .grado-img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+        }
+
+        .grado-info {
+            padding: 1.2rem;
+            text-align: center;
+        }
+
+        .grado-info h4 {
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .grado-info p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .carreras-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .carrera-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: row;
+            transition: var(--transition);
+            align-items: center;
+        }
+
+        .carrera-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--secondary);
+        }
+
+        .carrera-content {
+            padding: 2.5rem;
+            flex: 1;
+        }
+
+        .carrera-content h4 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 0.8rem;
+        }
+
+        .carrera-content p {
+            color: var(--text-muted);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .duration-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--secondary);
+            color: #ffffff;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .carrera-img-wrapper {
+            width: 380px;
+            min-height: 250px;
+            height: 100%;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .carrera-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .teachers-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .teacher-card {
+            position: relative;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            height: 230px;
+        }
+
+        .teacher-card:hover .teacher-img-box img {
+            transform: scale(1.45);
+        }
+
+        .teacher-img-box {
+            min-width: 150px;
+            width: 150px;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+            background: #e2e8f0;
+        }
+
+        /* CONFIGURACIÓN PARA ENFOCAR Y MOSTRAR SOLO EL ROSTRO */
+        .teacher-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center; /* Enfoca la parte superior (rostro) */
+            transform: scale(1.35);      /* Realiza zoom para recortar el cuerpo */
+            transition: var(--transition);
+        }
+
+        .teacher-info {
+            padding: 1.2rem 1.5rem;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: var(--card-bg);
+            z-index: 2;
+        }
+
+        .teacher-info h3 {
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .teacher-info .cargo {
+            color: var(--secondary);
+            font-size: 0.88rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .teacher-info span {
+            font-size: 0.8rem; 
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .teacher-details {
+            position: absolute;
+            top: 0;
+            left: 100%; 
+            width: 100%;
+            height: 100%;
+            background: #1e3a8a;
+            color: #ffffff;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 3;
+            box-shadow: 5px 0 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .teacher-card:hover .teacher-details {
+            left: 0; 
+        }
+
+        .teacher-details h4 {
+            color: #fbbf24;
+            margin-bottom: 0.4rem;
+            font-size: 1.05rem;
+        }
+
+        .teacher-details p {
+            font-size: 0.82rem;
+            line-height: 1.45;
+            opacity: 0.95;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+            max-width: 700px;
+        }
+
+        .social-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            padding: 2.5rem 2rem;
+            border-radius: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-main);
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .social-card i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            transition: var(--transition);
+        }
+
+        .social-card span {
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .social-card:hover {
+            transform: translateY(-6px);
+            background: #1e3a8a;
+            color: #ffffff;
+            border-color: #1e3a8a;
+        }
+
+        .social-card:hover i {
+            color: #fbbf24;
+        }
+
+        footer {
+            margin-top: auto;
+            background: #1e3a8a;
+            color: #ffffff;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+            opacity: 0.95;
+        }
+
+        @media (max-width: 900px) {
+            .carrera-card {
+                flex-direction: column;
+            }
+            .carrera-img-wrapper {
+                width: 100%;
+                height: 200px;
+                min-height: 200px;
+            }
+            .carrera-img-wrapper img {
+                position: relative;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .nav-right {
+                width: 100%;
+                justify-content: space-between;
+                flex-wrap: wrap;
+            }
+            nav ul {
+                gap: 0.2rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .main-content {
+                margin-top: 160px;
+                padding: 2rem 1rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="switchSection('inicio', event)">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbNQIYooZXGRiE1UZq3N56_GuMDOhm5RAqvPZOch2Hrw&s=10" alt="Logo Mariano García Arzú">
+                <span>Mariano García Arzú</span>
+            </a>
+            <div class="nav-right">
+                <nav>
+                    <ul>
+                        <li><a href="#inicio" class="nav-link active" onclick="switchSection('inicio', event)">Inicio</a></li>
+                        <li><a href="#cursos" class="nav-link" onclick="switchSection('cursos', event)">Cursos</a></li>
+                        <li><a href="#docentes" class="nav-link" onclick="switchSection('docentes', event)">Docentes</a></li>
+                        <li><a href="#horarios" class="nav-link" onclick="switchSection('horarios', event)">Eventos</a></li>
+                        <li><a href="#redes" class="nav-link" onclick="switchSection('redes', event)">Redes</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Selector de Tema -->
+                <div class="theme-selector-container">
+                    <button class="theme-btn" id="themeMenuBtn" onclick="toggleThemeDropdown(event)">
+                        <i class="fa-solid fa-circle-half-stroke" id="currentThemeIcon"></i>
+                        <span id="currentThemeText">Tema</span>
+                        <i class="fa-solid fa-chevron-down" style="font-size: 0.75rem;"></i>
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option" onclick="setTheme('light')">
+                            <i class="fa-solid fa-sun" style="color: #f59e0b;"></i> Claro
+                        </button>
+                        <button class="theme-option" onclick="setTheme('dark')">
+                            <i class="fa-solid fa-moon" style="color: #60a5fa;"></i> Oscuro
+                        </button>
+                        <button class="theme-option" onclick="setTheme('system')">
+                            <i class="fa-solid fa-desktop" style="color: #9ca3af;"></i> Sistema
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <!-- APARTADO INICIO -->
+        <section id="inicio" class="section active">
+            <div class="hero">
+                <div class="institute-logo-large">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbNQIYooZXGRiE1UZq3N56_GuMDOhm5RAqvPZOch2Hrw&s=10" alt="Escudo Instituto Mariano García Arzú">
+                </div>
+                <h1>Instituto Mariano García Arzú</h1>
+
+                <!-- Contenedor del Collage con la imagen del collage -->
+                <div class="hero-collage-container">
+                    <img src="collage.png" alt="Collage Instituto Mariano García Arzú">
+                </div>
+                
+                <div class="hero-description">
+                    <h3>Comprometidos con la excelencia educativa</h3>
+                    <p>
+                        El <strong>Instituto Mariano García Arzú</strong> es una prestigiosa institución educativa dedicada a la formación integral de la juventud. Nos enfocamos en cultivar el pensamiento crítico, la innovación tecnológica y los valores morales más altos, preparando a nuestros estudiantes para afrontar con éxito los retos académicos y profesionales del futuro.
+                    </p>
+                    <p>
+                        A través de un cuerpo docente altamente calificado y una oferta académica estructurada en los ciclos de educación básica y media técnica, fomentamos un ambiente de superación constante, disciplina y liderazgo en nuestra comunidad estudiantil.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CURSOS -->
+        <section id="cursos" class="section">
+            <h2 class="section-title">Nuestra Oferta Académica</h2>
+
+            <!-- Título Grados -->
+            <h3 class="subsection-title">
+                <i class="fa-solid fa-shapes"></i> Grados
+            </h3>
+            <div class="grados-grid">
+                <!-- Séptimo -->
+                <div class="grado-card">
+                    <img class="grado-img" src="Septimo1.png" alt="Séptimo 1" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Septimo+1'">
+                    <div class="grado-info">
+                        <h4>Séptimo 1</h4>
+                        <p>Ciclo Básico - Sección A</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=400&q=80" alt="Séptimo 2" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Septimo+2'">
+                    <div class="grado-info">
+                        <h4>Séptimo 2</h4>
+                        <p>Ciclo Básico - Sección B</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=400&q=80" alt="Séptimo 3" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Septimo+3'">
+                    <div class="grado-info">
+                        <h4>Séptimo 3</h4>
+                        <p>Ciclo Básico - Sección C</p>
+                    </div>
+                </div>
+
+                <!-- Octavo -->
+                <div class="grado-card">
+                    <img class="grado-img" src="Octavo1.png" alt="Octavo 1" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Octavo+1'">
+                    <div class="grado-info">
+                        <h4>Octavo 1</h4>
+                        <p>Ciclo Básico - Sección A</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=400&q=80" alt="Octavo 2" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Octavo+2'">
+                    <div class="grado-info">
+                        <h4>Octavo 2</h4>
+                        <p>Ciclo Básico - Sección B</p>
+                    </div>
+                </div>
+
+                <!-- Noveno -->
+                <div class="grado-card">
+                    <img class="grado-img" src="Noveno1.png" alt="Noveno 1" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Noveno+1'">
+                    <div class="grado-info">
+                        <h4>Noveno 1</h4>
+                        <p>Ciclo Básico - Sección A</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=400&q=80" alt="Noveno 2" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Noveno+2'">
+                    <div class="grado-info">
+                        <h4>Noveno 2</h4>
+                        <p>Ciclo Básico - Sección B</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="9BCH.png" alt="Noveno 3" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Noveno+3'">
+                    <div class="grado-info">
+                        <h4>Noveno 3</h4>
+                        <p>Ciclo Básico - Sección C</p>
+                    </div>
+                </div>
+
+                <!-- Décimo -->
+                <div class="grado-card">
+                    <img class="grado-img" src="Decimo1.png" alt="Décimo 1" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Decimo+1'">
+                    <div class="grado-info">
+                        <h4>Décimo 1</h4>
+                        <p>Educación Media - Sección A</p>
+                    </div>
+                </div>
+                <div class="grado-card">
+                    <img class="grado-img" src="10BCH.png" alt="Décimo 2" onerror="this.src='https://placehold.co/400x140/1e3a8a/ffffff?text=Decimo+2'">
+                    <div class="grado-info">
+                        <h4>Décimo 2</h4>
+                        <p>Educación Media - Sección B</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Título Nuestras Carreras -->
+            <h3 class="subsection-title">
+                <i class="fa-solid fa-user-graduate"></i> Nuestras Carreras
+            </h3>
+            <div class="carreras-container">
+                <div class="carrera-card">
+                    <div class="carrera-content">
+                        <h4>Bachillerato en Ciencias y Humanidades</h4>
+                        <p>Formación integral orientada al desarrollo de habilidades analíticas, científicas y humanísticas. Diseñado para preparar al estudiante hacia la educación universitaria superior.</p>
+                        <div class="duration-badge">
+                            <i class="fa-solid fa-clock"></i> Duración: 2 años
+                        </div>
+                    </div>
+                    <div class="carrera-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?auto=format&fit=crop&w=800&q=80" alt="Ciencias y Humanidades" onerror="this.src='https://placehold.co/800x500/1e3a8a/ffffff?text=Ciencias+y+Humanidades'">
+                    </div>
+                </div>
+
+                <div class="carrera-card">
+                    <div class="carrera-content">
+                        <h4>Bachillerato Técnico Profesional en Informática</h4>
+                        <p>Especialización práctica e intensiva en desarrollo de software, mantenimiento preventivo y correctivo de hardware, arquitectura de redes y sistemas de información.</p>
+                        <div class="duration-badge">
+                            <i class="fa-solid fa-clock"></i> Duración: 1 año
+                        </div>
+                    </div>
+                    <div class="carrera-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80" alt="Informática" onerror="this.src='https://placehold.co/800x500/1e3a8a/ffffff?text=Informatica'">
+                    </div>
+                </div>
+
+                <div class="carrera-card">
+                    <div class="carrera-content">
+                        <h4>Bachillerato Técnico en Refrigeración</h4>
+                        <p>Capacitación especializada en instalación, diagnóstico y mantenimiento de sistemas electromecánicos de refrigeración comercial, industrial y aire acondicionado.</p>
+                        <div class="duration-badge">
+                            <i class="fa-solid fa-clock"></i> Duración: 2 años
+                        </div>
+                    </div>
+                    <div class="carrera-img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?auto=format&fit=crop&w=800&q=80" alt="Refrigeración" onerror="this.src='https://placehold.co/800x500/1e3a8a/ffffff?text=Refrigeracion'">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DOCENTES -->
+        <section id="docentes" class="section">
+            <h2 class="section-title">Planta Docente</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-muted);">Desplaza el cursor sobre la fotografía o tarjeta de cada docente para desplegar su información detallada hacia la derecha.</p>
+            
+            <div class="teachers-container">
+                <!-- Docente 1 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="https://i.imgur.com/D42PMNg.png" alt="Lic. Noel Duarte">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Aracelly Martínez</h3>
+                        <div class="cargo">Área Directíva</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Directora del instituto Mariano Garcia Arzu con mas de 20 años de experiencia.</p>
+                    </div>
+                </div>
+
+                <!-- Docente 2 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="https://i.imgur.com/1VpEL0j.png" alt="Lic. Aracelly Martínez">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Noel Duarte</h3>
+                        <div class="cargo">Area Directiva</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Sub Director del Instituto Mariano Garcia Arzu.</p>
+                    </div>
+                </div>
+
+                <!-- Docente 3 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="https://i.imgur.com/oBiMu1a.png" alt="Adrian Martinez">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Lesly </h3>
+                        <div class="cargo">Área Directiva</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Administradora del Instituto.</p>
+                    </div>
+                </div>
+
+                <!-- Docente 4 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="Danilo.png" alt="Lic. Danilo Reyes" onerror="this.src='https://i.imgur.com/D42PMNg.png'">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Danilo Reyes</h3>
+                        <div class="cargo">Profesor.</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Licenciado de Educación Fisica, Español y Ciencias Sociales</p>
+                    </div>
+                </div>
+
+                <!-- Docente 5 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="Adrian.png" alt="Dra. Patricia Torres" onerror="this.src='https://i.imgur.com/1VpEL0j.png'">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Adrian Martinez</h3>
+                        <div class="cargo">Profesor</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Licenciado en informática y matemáticas.</p>
+                    </div>
+                </div>
+
+                <!-- Docente 6 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="Odair.png" alt="Lic. Fernando Aguilar" onerror="this.src='https://i.imgur.com/oBiMu1a.png'">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Odair Gotay.</h3>
+                        <div class="cargo">Profesor</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Licenciado en Legislacion e informática.</p>
+                    </div>
+                </div>
+
+
+
+                <!-- Docente 8 -->
+                <div class="teacher-card">
+                    <div class="teacher-img-box">
+                        <img src="Marcial.png" alt="Ing. Jorge Castillo" onerror="this.src='https://i.imgur.com/D42PMNg.png'">
+                    </div>
+                    <div class="teacher-info">
+                        <h3>Lic. Pedro Marcial Aquino</h3>
+                        <div class="cargo">Profesor</div>
+                        <span><i class="fa-solid fa-arrow-right-long"></i> Pasa el cursor aquí</span>
+                    </div>
+                    <div class="teacher-details">
+                        <h4>Trayectoria Profesional</h4>
+                        <p>Licenciado en Filosofia, Sociologia, Historia de Honduras y Lengua Materna.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN HORARIOS / EVENTOS -->
+        <section id="horarios" class="section">
+            <h2 class="section-title">Programa y Plan de Celebración</h2>
+            
+            <!-- Banner Principal de Aniversario -->
+            <div style="background: linear-gradient(135deg, #1e3a8a, #3b82f6); color: #ffffff; padding: 2.5rem; border-radius: 16px; margin-top: 1.5rem; margin-bottom: 2rem; box-shadow: var(--shadow-lg); display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; position: relative; overflow: hidden;">
+                <div style="position: absolute; right: -20px; bottom: -20px; font-size: 10rem; color: rgba(255, 255, 255, 0.05); font-weight: 700; pointer-events: none;">25</div>
+                <span style="background: var(--accent); color: var(--dark); padding: 0.4rem 1.2rem; border-radius: 20px; font-weight: 600; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">¡25 Años de Servir a la Juventud!</span>
+                <h3 style="font-size: 2.4rem; font-weight: 700; color: #fbbf24; margin: 0;">PROGRAMA Y PLAN DE CELEBRACIÓN</h3>
+                <h4 style="font-size: 1.3rem; font-weight: 500; margin: 0;">Del 26 al 30 de Octubre.</h4>
+                <p style="max-width: 700px; font-size: 1.05rem; line-height: 1.6; opacity: 0.95;">
+                    Corozal, La Ceiba, Atlántida. "Educación que deja huella". ¡Los esperamos para celebrar juntos este gran aniversario:
+                </p>
+            </div>
+
+            <!-- Tarjetas de Eventos Del 26 al 30 de Octubre -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 2rem;">
+                
+                <!-- Lunes 26 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: var(--transition);">
+                    <div style="padding: 1.5rem; background: var(--primary); color: #fff;">
+                        <span style="background: var(--accent); color: var(--dark); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">LUNES 26</span>
+                        <h4 style="font-size: 1.25rem; margin-top: 0.5rem; color: #fbbf24;">Desfile en la Comunidad</h4>
+                    </div>
+                    <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 1.5rem;">
+                            <li>Con motivo del aniversario del Instituto Mariano García Arzú.</li>
+                            <li>Deberán participar todos los grupos especiales del desfile.</li>
+                            <li>Se llevará a cabo a las 4:00 p. m.</li>
+                            <li>Sin suspensión de clases.</li>
+                        </ul>
+                        <a href="#horarios" style="background: var(--primary); color: #ffffff; text-align: center; text-decoration: none; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; display: block;">Eventos</a>
+                    </div>
+                </div>
+
+                <!-- Martes 27 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: var(--transition);">
+                    <div style="padding: 1.5rem; background: #059669; color: #fff;">
+                        <span style="background: var(--accent); color: var(--dark); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">MARTES 27</span>
+                        <h4 style="font-size: 1.25rem; margin-top: 0.5rem; color: #fff;">Festival de Fonomímica.</h4>
+                    </div>
+                    <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 1.5rem;">
+                            <li>Se realizará a las 4:00 p. m.</li>
+                            <li>Inscripciones por los maestros guías.</li>
+                            <li>Participación de estudiantes de los diferentes cursos.</li>
+                        </ul>
+                        <a href="#horarios" style="background: var(--primary); color: #ffffff; text-align: center; text-decoration: none; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; display: block;">Eventos</a>
+                    </div>
+                </div>
+
+                <!-- Miércoles 28 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: var(--transition);">
+                    <div style="padding: 1.5rem; background: #d97706; color: #fff;">
+                        <span style="background: var(--dark); color: #fff; padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">MIÉRCOLES 28</span>
+                        <h4 style="font-size: 1.25rem; margin-top: 0.5rem; color: #fff;">Open House</h4>
+                    </div>
+                    <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 1.5rem;">
+                            <li>Apertura de puertas para padres de familia, comunidad educativa y público en general.</li>
+                            <li>Presentación de la oferta académica del instituto.</li>
+                            <li>Recorrido por las instalaciones y stands informativos.</li>
+                        </ul>
+                        <a href="#horarios" style="background: var(--primary); color: #ffffff; text-align: center; text-decoration: none; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; display: block;">Eventos</a>
+                    </div>
+                </div>
+
+                <!-- Jueves 29 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: var(--transition);">
+                    <div style="padding: 1.5rem; background: #be185d; color: #fff;">
+                        <span style="background: var(--accent); color: var(--dark); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">JUEVES 29</span>
+                        <h4 style="font-size: 1.15rem; margin-top: 0.5rem; color: #fff;">Almuerzo con la Iglesia y Elección de Señorita Aniversario.</h4>
+                    </div>
+                    <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 1.5rem;">
+                            <li>Almuerzo con la comunidad de la iglesia.</li>
+                            <li>Presentación de las candidatas a Señorita Aniversario.</li>
+                            <li>Elección de la Señorita Aniversario.</li>
+                        </ul>
+                        <a href="#horarios" style="background: var(--primary); color: #ffffff; text-align: center; text-decoration: none; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; display: block;">Eventos</a>
+                    </div>
+                </div>
+
+                <!-- Viernes 30 -->
+                <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; transition: var(--transition);">
+                    <div style="padding: 1.5rem; background: #7c3aed; color: #fff;">
+                        <span style="background: var(--accent); color: var(--dark); padding: 0.2rem 0.6rem; border-radius: 4px; font-size: 0.75rem; font-weight: 700;">VIERNES 30</span>
+                        <h4 style="font-size: 1.15rem; margin-top: 0.5rem; color: #fff;">Desfile de Carrozas y Entrega de Reconocimientos.</h4>
+                    </div>
+                    <div style="padding: 1.5rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between;">
+                        <ul style="padding-left: 1.2rem; font-size: 0.9rem; color: var(--text-main); line-height: 1.6; margin-bottom: 1.5rem;">
+                            <li>Desfile de carrozas por la comunidad.</li>
+                            <li>Entrega de reconocimientos a estudiantes, docentes y colaboradores destacados.</li>
+                        </ul>
+                        <a href="#horarios" style="background: var(--primary); color: #ffffff; text-align: center; text-decoration: none; padding: 0.7rem 1rem; border-radius: 8px; font-weight: 600; display: block;">Eventos</a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN REDES -->
+        <section id="redes" class="section">
+            <h2 class="section-title">Nuestras Redes Sociales</h2>
+            <p style="margin-bottom: 2rem; color: var(--text-muted);">Comunícate o sigue nuestras publicaciones oficiales a través de Facebook y WhatsApp.</p>
+            <div class="social-grid">
+                <a href="https://www.facebook.com/people/Instituto-Mariano-Garc%C3%ADa-Arz%C3%BA-IMGA/100039603836385/" target="_blank" rel="noopener" class="social-card">
+                    <i class="fa-brands fa-facebook"></i>
+                    <span>Facebook Oficial</span>
+                </a>
+                <a href="https://api.whatsapp.com/send/?phone=%2B50497782339&text&type=phone_number&app_absent=0" target="_blank" rel="noopener" class="social-card">
+                    <i class="fa-brands fa-whatsapp"></i>
+                    <span>WhatsApp Institucional</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>&copy; Instituto Mariano García Arzú - Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function switchSection(targetId, event) {
+            if (event) event.preventDefault();
+
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.classList.remove('active');
+            });
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            const targetSection = document.getElementById(targetId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+
+            const targetLink = document.querySelector(`a[href="#${targetId}"]`);
+            if (targetLink) {
+                targetLink.classList.add('active');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleThemeDropdown(event) {
+            event.stopPropagation();
+            document.getElementById('themeDropdown').classList.toggle('show');
+        }
+
+        window.addEventListener('click', () => {
+            const dropdown = document.getElementById('themeDropdown');
+            if (dropdown && dropdown.classList.contains('show')) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function setTheme(mode) {
+            const html = document.documentElement;
+            const textElement = document.getElementById('currentThemeText');
+            const iconElement = document.getElementById('currentThemeIcon');
+
+            document.querySelectorAll('.theme-option').forEach(opt => opt.classList.remove('active'));
+
+            if (mode === 'dark') {
+                html.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                textElement.innerText = 'Oscuro';
+                iconElement.className = 'fa-solid fa-moon';
+            } else if (mode === 'light') {
+                html.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                textElement.innerText = 'Claro';
+                iconElement.className = 'fa-solid fa-sun';
+            } else {
+                localStorage.setItem('theme', 'system');
+                textElement.innerText = 'Sistema';
+                iconElement.className = 'fa-solid fa-desktop';
+
+                if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    html.setAttribute('data-theme', 'dark');
+                } else {
+                    html.removeAttribute('data-theme');
+                }
+            }
+        }
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+            if (localStorage.getItem('theme') === 'system') {
+                setTheme('system');
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'system';
+            setTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>
